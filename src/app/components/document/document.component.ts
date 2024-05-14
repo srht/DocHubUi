@@ -44,4 +44,9 @@ export class DocumentComponent {
     console.log(this.singleDocument)
     this.documentService.SubmitDocument(this.singleDocument)
   }
+
+  deleteDocument(id:string){
+    console.log(id)
+    this.documentService.DeleteDocumentById(id)
+  }
 }

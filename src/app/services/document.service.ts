@@ -22,6 +22,11 @@ export class DocumentService {
     return this.httpClient.get<Document>(newPath);
   }
 
+  DeleteDocumentById(id: string) {
+    let newPath = environment.apiEndpoint + "documents/" + id
+   this.httpClient.delete<Document>(newPath).subscribe(res=>console.log(res));
+  }
+
   SubmitDocument(document: Document) {
     let newPath = environment.apiEndpoint + "documents/"
     this.httpClient.post(newPath, document).subscribe(res => console.log(res))

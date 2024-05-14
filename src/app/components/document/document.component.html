@@ -3,6 +3,7 @@
     <mat-list-item *ngFor="let document of documentList"
       >{{ document.title }}
       <a href="https://localhost:5001{{ document.filePath }}">İndir</a>
+      <button (click)="deleteDocument(document.id)">Sil</button>
     </mat-list-item>
   </mat-list>
 </div>
