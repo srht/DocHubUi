@@ -1,1 +1,21 @@
-<p>document works!</p>
+<div>
+  <mat-list>
+    <mat-list-item *ngFor="let document of documentList"
+      >{{ document.title }}
+      <a href="https://localhost:5001{{ document.filePath }}">İndir</a>
+    </mat-list-item>
+  </mat-list>
+</div>
+<div>
+  <form [formGroup]="documentUpdateForm" (ngSubmit)="updateDocument()">
+    <input type="text" formControlName="title" placeholder="Doküman Başlığı" />
+    <textarea
+      formControlName="description"
+      placeholder="Doküman Notları"
+    ></textarea>
+    <app-file-uploader
+      (newFileUploadedEvent)="savedDocumentFilePath($event)"
+    ></app-file-uploader>
+    <button type="submit">Kaydet</button>
+  </form>
+</div>

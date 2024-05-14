@@ -12,3 +12,4 @@ export class Document {
     updatedAt!: string;
     tags!: Tag[];
 }
+

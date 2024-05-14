@@ -1,0 +1,17 @@
+<div class="form-inline-group">
+  <input
+    class="form-control"
+    type="file"
+    accept="audio/mp3,video/mp4,image/jpeg,image/jpg,image/png,application/pdf"
+    (change)="onChange($event)"
+  />
+  <input type="hidden" [(ngModel)]="shortLink" />
+
+  <div class="container text-center" *ngIf="shortLink">
+    <strong>Dosya yolu:</strong>
+    <a href="https://www.ituyayinevi.com/{{ shortLink }}">{{ shortLink }}</a>
+  </div>
+  <div class="container" *ngIf="loading">
+    <strong>Yükleniyor ...</strong>
+  </div>
+</div>

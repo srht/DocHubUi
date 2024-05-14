@@ -21,4 +21,9 @@ export class DocumentService {
     let newPath = environment.apiEndpoint + "documents/" + id
     return this.httpClient.get<Document>(newPath);
   }
+
+  SubmitDocument(document: Document) {
+    let newPath = environment.apiEndpoint + "documents/"
+    this.httpClient.post(newPath, document).subscribe(res => console.log(res))
+  }
 }
