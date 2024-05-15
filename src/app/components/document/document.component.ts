@@ -5,11 +5,15 @@ import { MatList, MatListItem } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { FileUploaderComponent } from '../file-uploader/file-uploader.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GlobalModules } from '../../globalModules';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from '../../services/jwtinterceptor';
 
 @Component({
   selector: 'app-document',
   standalone: true,
   imports: [MatList, MatListItem, CommonModule, FormsModule, ReactiveFormsModule, FileUploaderComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   templateUrl: './document.component.html',
   styleUrl: './document.component.css'
 })
@@ -45,7 +49,7 @@ export class DocumentComponent {
     this.documentService.SubmitDocument(this.singleDocument)
   }
 
-  deleteDocument(id:string){
+  deleteDocument(id: string) {
     console.log(id)
     this.documentService.DeleteDocumentById(id)
   }
