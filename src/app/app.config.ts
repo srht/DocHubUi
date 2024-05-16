@@ -3,12 +3,14 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { JwtInterceptor } from './services/jwtinterceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { jwtInterceptor } from './_interceptors/jwt.interceptor';
 
-const jwtinterceptor: Provider =
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient()]
+  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(
+    withInterceptors(
+      [jwtInterceptor]
+    )
+  )]
 };

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -30,17 +30,25 @@ export class UsersService {
     this.httpClient.delete<Document>(newPath).subscribe(res => console.log(res));
   }
 
-  Login(login: LoginModel) {
+  Login(loginModel: LoginModel) {
     let newPath = environment.apiEndpoint + "users/login"
-    this.httpClient.post<LoginResponseModel>(newPath, login).subscribe((response) => {
-      console.log('response')
-      console.log(response)
-      if (response.token) {
-        sessionStorage.setItem('username', response.username);
-        sessionStorage.setItem('token', response.token);
-      }
-    })
+    this.httpClient.post<LoginResponseModel>(newPath, loginModel)//, { observe: 'response', withCredentials: true })
+      .subscribe((loginResponse) => {
+        //.subscribe((response: HttpResponse<any>) => { -->  für samesite cookie set
+
+        // Header verisine erişim
+        /*const headers = response.headers;
+        console.log('Headers:', headers.keys());
+        console.log(headers)*/
+        if (loginResponse.token) {
+
+          sessionStorage.setItem('username', loginResponse.username);
+          sessionStorage.setItem('token', loginResponse.token);
+        }
+
+      })
   }
+
 
   Register(register: RegisterModel) {
     let newPath = environment.apiEndpoint + "users/register"
