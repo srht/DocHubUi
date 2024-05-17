@@ -24,11 +24,16 @@ export class DocumentService {
 
   DeleteDocumentById(id: string) {
     let newPath = environment.apiEndpoint + "documents/" + id
-   this.httpClient.delete<Document>(newPath).subscribe(res=>console.log(res));
+    this.httpClient.delete<Document>(newPath).subscribe(res => console.log(res));
   }
 
-  SubmitDocument(document: Document) {
+  CreateDocument(document: Document) {
     let newPath = environment.apiEndpoint + "documents/"
     this.httpClient.post(newPath, document).subscribe(res => console.log(res))
+  }
+
+  UpdateDocument(document: Document) {
+    let newPath = environment.apiEndpoint + `documents/${document.id}`
+    this.httpClient.put(newPath, document).subscribe(res => console.log(res))
   }
 }

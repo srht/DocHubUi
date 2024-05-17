@@ -1,0 +1,50 @@
+<mat-toolbar class="top-toolbar" color="primary">
+  <button
+    *ngIf="currentUser"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    (click)="drawer.toggle()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Logo</span>
+  <span class="example-spacer"></span>
+  <span *ngIf="!currentUser">
+    <a
+      mat-icon-button
+      class="example-icon login-icon"
+      routerLink="/uye-giris"
+      mat-button
+      ><mat-icon>login</mat-icon> Kullanıcı Girişi</a
+    >
+    <a routerLink="/uye-kayit" mat-button>Kayıt</a>
+  </span>
+  <span *ngIf="currentUser">
+    Merhaba
+    <a mat-button (click)="logout()">Çıkış</a>
+  </span>
+</mat-toolbar>
+<mat-drawer-container style="height: 650px">
+  <mat-drawer #drawer mode="side" opened="true">
+    <mat-list *ngIf="currentUser" role="list">
+      <mat-list-item role="listitem">
+        <a routerLink="/yayinci-teklif" mat-button>Yayıncı Teklif</a>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <a routerLink="/teklif-talepleri" mat-button>Teklif Talepleri</a>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <a routerLink="/yayinci-sepeti" mat-button>Yayıncı Sepeti</a>
+      </mat-list-item>
+      <mat-list-item *ngIf="isAdmin" role="listitem">
+        <a routerLink="/tum-teklifler" mat-button>Tüm Teklifler</a>
+      </mat-list-item>
+      <mat-list-item *ngIf="isAdmin" role="listitem">
+        <a routerLink="/liste-olustur" mat-button>Liste Oluştur</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+
+  <router-outlet></router-outlet>
+</mat-drawer-container>

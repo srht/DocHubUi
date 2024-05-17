@@ -1,0 +1,21 @@
+<div>
+  <input type="text" [(ngModel)]="categoryName" />
+  <select [(ngModel)]="parentCategoryId">
+    <option value="{{ category.id }}" *ngFor="let category of categoryList">
+      {{ category.name }}
+    </option>
+  </select>
+  <button *ngIf="!singleCategory?.id" (click)="NewCategory()">
+    New Category
+  </button>
+  <button *ngIf="singleCategory?.id" (click)="UpdateCategory()">
+    Update Category
+  </button>
+  <ul>
+    <li *ngFor="let category of categoryList">
+      {{ category.name }}
+      <button (click)="SelectCategory(category.id)">Seç</button>
+      <button (click)="DeleteCategory(category.id)">Sil</button>
+    </li>
+  </ul>
+</div>

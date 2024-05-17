@@ -3,20 +3,27 @@
     <mat-list-item *ngFor="let document of documentList"
       >{{ document.title }}
       <a href="https://localhost:5001{{ document.filePath }}">İndir</a>
+      <button (click)="selectDocument(document.id)">Düzenle</button>
       <button (click)="deleteDocument(document.id)">Sil</button>
     </mat-list-item>
   </mat-list>
 </div>
 <div>
-  <form [formGroup]="documentUpdateForm" (ngSubmit)="updateDocument()">
+  <form [formGroup]="documentUpdateForm" (ngSubmit)="upsertDocument()">
     <input type="text" formControlName="title" placeholder="Doküman Başlığı" />
     <textarea
       formControlName="description"
       placeholder="Doküman Notları"
     ></textarea>
+    <select [(ngModel)]="selectedCategoryId">
+      <option value="{{ category.id }}" *ngFor="let category of categoryList">
+        {{ category.name }}
+      </option>
+    </select>
     <app-file-uploader
       (newFileUploadedEvent)="savedDocumentFilePath($event)"
     ></app-file-uploader>
+    <input type="hidden" formControlName="id" />
     <button type="submit">Kaydet</button>
   </form>
 </div>
