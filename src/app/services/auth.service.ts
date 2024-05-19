@@ -12,10 +12,8 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = sessionStorage.getItem('token');
 
-    console.log(token)
     if (!token) return false;
     if (this.isTokenExpired(token)) {
-      console.log('exp')
       return false;
     }
 

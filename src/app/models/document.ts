@@ -1,4 +1,5 @@
 
+import { Category } from "./category";
 import { Tag } from "./tag";
 
 
@@ -11,5 +12,6 @@ export class Document {
     createdAt!: string;
     updatedAt!: string;
     tags!: Tag[];
+    categories!:Category[];
 }
 
