@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document';
 import { MatList, MatListItem } from '@angular/material/list';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { FileUploaderComponent } from '../file-uploader/file-uploader.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
+import { MatDialog } from '@angular/material/dialog';
+import { DocumentdialogComponent } from '../documentdialog/documentdialog.component';
 
 @Component({
   selector: 'app-document',
@@ -21,11 +23,11 @@ import { Category } from '../../models/category';
 export class DocumentComponent {
   singleDocument!: Document
   documentList!: Document[]
-  displayedColumns:string[]=['buttons','title'];
+  displayedColumns: string[] = ['buttons', 'title'];
   categoryList!: Category[]
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
-  constructor(private documentService: DocumentService, private categoryService: CategoryService) {
+  constructor(private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
     this.singleDocument = new Document()
     this.getDocuments();
     this.GetCategories();
@@ -33,8 +35,19 @@ export class DocumentComponent {
       id: new FormControl(),
       title: new FormControl(),
       description: new FormControl(),
-      selectedCategoryId:new FormControl()
+      selectedCategoryId: new FormControl()
     })
+  }
+
+  openEditDialog(document: Document) {
+    const dialogRef = this.dialog.open(DocumentdialogComponent, {
+      data: document,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.singleDocument = result;
+    });
   }
 
   getDocuments() {
@@ -57,10 +70,10 @@ export class DocumentComponent {
     this.singleDocument.id = newDocumentValues.id
     this.singleDocument.title = newDocumentValues.title
     this.singleDocument.description = newDocumentValues.description
-    this.selectedCategoryId=this.documentUpdateForm.controls['selectedCategoryId']?.value
-    if(!this.singleDocument.categories) this.singleDocument.categories=[]
-    if(this.selectedCategoryId)
-      this.singleDocument.categories.push({ id:this.selectedCategoryId } as Category)
+    this.selectedCategoryId = this.documentUpdateForm.controls['selectedCategoryId']?.value
+    if (!this.singleDocument.categories) this.singleDocument.categories = []
+    if (this.selectedCategoryId)
+      this.singleDocument.categories.push({ id: this.selectedCategoryId } as Category)
 
     console.log(this.singleDocument)
     if (this.singleDocument.id)
@@ -73,13 +86,15 @@ export class DocumentComponent {
     let doc = this.documentList.find(i => i.id === id);
 
     if (doc) {
+      this.singleDocument = new Document()
       this.singleDocument.id = doc.id
       this.singleDocument.title = doc.title
       this.singleDocument.description = doc.description
-      this.singleDocument.categories=doc.categories && []
+      this.singleDocument.categories = doc.categories && []
     }
     this.documentUpdateForm.patchValue(this.singleDocument)
     console.log(this.singleDocument)
+    this.openEditDialog(this.singleDocument)
   }
 
   deleteDocument(id: string) {

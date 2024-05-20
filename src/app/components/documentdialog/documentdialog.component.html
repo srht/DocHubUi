@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{ document.title }}</h2>
+<form [formGroup]="documentUpdateForm" (ngSubmit)="upsertDocument()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="Doküman Başlığı"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Doküman Notları"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Doküman Kategorisi</mat-label>
+      <select formControlName="selectedCategoryId">
+        <option selected>Kategori Seçin</option>
+        <option value="{{ category.id }}" *ngFor="let category of categoryList">
+          {{ category.name }}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Doküman Kategorisi</mat-label>
+      <app-file-uploader
+        (newFileUploadedEvent)="savedDocumentFilePath($event)"
+      ></app-file-uploader>
+      <input type="hidden" formControlName="id" />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button
+      mat-button
+      type="submit"
+      [mat-dialog-close]="document"
+      cdkFocusInitial
+    >
+      Ok
+    </button>
+  </mat-dialog-actions>
+</form>

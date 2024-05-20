@@ -6,8 +6,8 @@ import { AuthGuard } from './services/authguard';
 import { CategoryComponent } from './components/category/category.component';
 
 export const routes: Routes = [
-    { path: 'document', component: DocumentComponent, canActivate: [AuthGuard] },
-    { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
+    { path: 'document', component: DocumentComponent },
+    { path: 'category', component: CategoryComponent }, //, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent }
 ];
