@@ -12,5 +12,5 @@ export const appConfig: ApplicationConfig = {
     withInterceptors(
       [jwtInterceptor]
     )
-  )]
+  ), provideAnimationsAsync()]
 };
