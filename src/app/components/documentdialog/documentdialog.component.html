@@ -23,7 +23,8 @@
       <mat-form-field class="full-row">
         <mat-label>Doküman Kategorisi</mat-label>
         <mat-select
-          [formControl]="selectedCategoryValues"
+          id="selectedCategoryValues"
+          formControlName="selectedCategoryValues"
           (selectionChange)="categorySelected()"
           multiple
         >

@@ -22,19 +22,12 @@ import { DocumentService } from '../../services/document.service';
   styleUrl: './documentdialog.component.css'
 })
 export class DocumentdialogComponent {
-  categorySelected() {
-    const arr = this.selectedCategoryValues.value
-
-    Array.prototype.map(function (v, i, arr) {
-      console.log(v)
-    })
-  }
 
   categoryList!: Category[]
   documentUpdateForm!: FormGroup;
   selectedCategoryId: any;
   selectedCategoryValues = new FormControl('');
-  selectedCategoryNames!: Document[];
+  selectedCategoryNames!: Category[];
   constructor(public dialogRef: MatDialogRef<DocumentdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public document: Document, private documentService: DocumentService, private categoryService: CategoryService) {
 
@@ -42,7 +35,7 @@ export class DocumentdialogComponent {
       id: new FormControl(),
       title: new FormControl(),
       description: new FormControl(),
-      selectedCategoryId: new FormControl()
+      selectedCategoryValues: new FormControl()
     })
   }
 
@@ -53,6 +46,18 @@ export class DocumentdialogComponent {
       this.categoryList = result;
       this.documentUpdateForm.patchValue(this.document)
     })
+  }
+
+  categorySelected() {
+    const selectedCategoryValues:number[]= this.documentUpdateForm.controls['selectedCategoryValues']?.value
+
+    for (let index = 0; index < selectedCategoryValues.length; index++) {
+      const id = selectedCategoryValues[index];
+      const foundd=this.categoryList.find(i=>i.id===id);
+      if(foundd)
+      this.selectedCategoryNames.push(foundd)
+    }
+    
   }
 
   savedDocumentFilePath(uploadedDocumentFilePath: string) {
