@@ -5,10 +5,18 @@
     </button>
     <h1 class="app-name">DocHub</h1>
     <div class="flex">
-      <form>
-        <input type="text" name="search" />
+      <form action="/documents/list">
+        <input type="text" name="keyword" />
         <button mat-button type="submit">Ara</button>
       </form>
+      <a mat-list-item routerLink="/category" routerLinkActive="true"
+        >Category</a
+      >
+      <a mat-list-item routerLink="/register" routerLinkActive="true"
+        >Register</a
+      >
+      <a mat-list-item routerLink="/login" routerLinkActive="true">Login</a>
+      <app-membertool></app-membertool>
     </div>
   </mat-toolbar>
   <mat-sidenav-container
@@ -25,20 +33,7 @@
       <mat-nav-list>
         <div style="width: 300px">
           <mat-nav-list>
-            <a mat-list-item routerLink="/" routerLinkActive="ture">Home</a>
-            <a mat-list-item routerLink="/document" routerLinkActive="true"
-              >Document</a
-            >
-            <a mat-list-item routerLink="/category" routerLinkActive="true"
-              >Category</a
-            >
-            <a mat-list-item routerLink="/register" routerLinkActive="true"
-              >Register</a
-            >
-            <a mat-list-item routerLink="/login" routerLinkActive="true"
-              >Login</a
-            >
-            <app-membertool></app-membertool>
+            <app-categoriestree></app-categoriestree>
           </mat-nav-list>
         </div>
       </mat-nav-list>

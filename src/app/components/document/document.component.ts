@@ -12,6 +12,7 @@ import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentdialogComponent } from '../documentdialog/documentdialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-document',
@@ -27,9 +28,13 @@ export class DocumentComponent {
   categoryList!: Category[]
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
-  constructor(private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
+  constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
+    activatedRoute.queryParams.subscribe(p => {
+      let kw = p["keyword"]
+      this.getDocuments(kw)
+    })
     this.singleDocument = new Document()
-    this.getDocuments();
+
     this.GetCategories();
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
@@ -50,37 +55,14 @@ export class DocumentComponent {
     });
   }
 
-  getDocuments() {
-    this.documentService.GetDocuments().subscribe(res => this.documentList = res)
+  getDocuments(keyword: string) {
+    this.documentService.Search(keyword).subscribe(res => this.documentList = res)
   }
 
   GetCategories() {
     this.categoryService.GetCategories().subscribe(res => this.categoryList = res)
   }
 
-  savedDocumentFilePath(uploadedDocumentFilePath: string) {
-    this.singleDocument.filePath = uploadedDocumentFilePath;
-    console.log('this.singleDocument.filePath')
-    console.log(this.singleDocument.filePath)
-  }
-
-  upsertDocument() {
-    console.log('tetikledi,')
-    var newDocumentValues: Document = this.documentUpdateForm.value
-    this.singleDocument.id = newDocumentValues.id
-    this.singleDocument.title = newDocumentValues.title
-    this.singleDocument.description = newDocumentValues.description
-    this.selectedCategoryId = this.documentUpdateForm.controls['selectedCategoryId']?.value
-    if (!this.singleDocument.categories) this.singleDocument.categories = []
-    if (this.selectedCategoryId)
-      this.singleDocument.categories.push({ id: this.selectedCategoryId } as Category)
-
-    console.log(this.singleDocument)
-    if (this.singleDocument.id)
-      this.documentService.UpdateDocument(this.singleDocument)
-    else
-      this.documentService.CreateDocument(this.singleDocument)
-  }
 
   selectDocument(id: string) {
     let doc = this.documentList.find(i => i.id === id);

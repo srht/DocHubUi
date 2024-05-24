@@ -26,6 +26,7 @@
           id="selectedCategoryValues"
           formControlName="selectedCategoryValues"
           (selectionChange)="categorySelected()"
+          [(ngModel)]="document.categories"
           multiple
         >
           <mat-select-trigger>
@@ -41,7 +42,6 @@
             </span>
             }
           </mat-select-trigger>
-          <mat-option>Kategori Seçin</mat-option>
           <mat-option
             value="{{ category.id }}"
             *ngFor="let category of categoryList"
@@ -51,13 +51,15 @@
         </mat-select>
       </mat-form-field>
       <div class="full-row">
-        <mat-label>Doküman Kategorisi</mat-label>
-        <input type="file" />
+        <mat-label>Yeni dosya</mat-label>
+        <app-file-uploader
+          (newFileUploadedEvent)="savedDocumentFilePath($event)"
+        ></app-file-uploader>
         <input type="hidden" formControlName="id" />
       </div>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button mat-button (click)="onNoClick()">İptal</button>
       <button
         mat-raised-button
         color=""
@@ -65,7 +67,7 @@
         [mat-dialog-close]="document"
         cdkFocusInitial
       >
-        Ok
+        Kaydet
       </button>
     </mat-dialog-actions>
   </form>

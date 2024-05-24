@@ -27,7 +27,7 @@ export class DocumentdialogComponent {
   documentUpdateForm!: FormGroup;
   selectedCategoryId: any;
   selectedCategoryValues = new FormControl('');
-  selectedCategoryNames!: Category[];
+  selectedCategoryNames: Category[] = []
   constructor(public dialogRef: MatDialogRef<DocumentdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public document: Document, private documentService: DocumentService, private categoryService: CategoryService) {
 
@@ -49,15 +49,15 @@ export class DocumentdialogComponent {
   }
 
   categorySelected() {
-    const selectedCategoryValues:number[]= this.documentUpdateForm.controls['selectedCategoryValues']?.value
+    const selectedCategoryValues: number[] = this.documentUpdateForm.controls['selectedCategoryValues']?.value
 
     for (let index = 0; index < selectedCategoryValues.length; index++) {
       const id = selectedCategoryValues[index];
-      const foundd=this.categoryList.find(i=>i.id===id);
-      if(foundd)
-      this.selectedCategoryNames.push(foundd)
+      const foundd = this.categoryList.find((doc) => doc.id == id);
+      if (foundd)
+        this.selectedCategoryNames.push(foundd)
     }
-    
+
   }
 
   savedDocumentFilePath(uploadedDocumentFilePath: string) {
@@ -78,9 +78,10 @@ export class DocumentdialogComponent {
     this.document.title = newDocumentValues.title
     this.document.description = newDocumentValues.description
     this.selectedCategoryId = this.documentUpdateForm.controls['selectedCategoryId']?.value
+
     if (!this.document.categories) this.document.categories = []
-    if (this.selectedCategoryId)
-      this.document.categories.push({ id: this.selectedCategoryId } as Category)
+    if (this.selectedCategoryNames)
+      this.document.categories = this.selectedCategoryNames
 
     console.log(this.document)
     if (this.document.id)

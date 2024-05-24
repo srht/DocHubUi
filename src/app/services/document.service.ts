@@ -13,7 +13,13 @@ export class DocumentService {
 
   GetDocuments(): Observable<Document[]> {
 
-    let newPath = environment.apiEndpoint + "documents";
+    let newPath = environment.apiEndpoint + "documents/list";
+    return this.httpClient.get<Document[]>(newPath);
+  }
+
+  Search(keyword: string): Observable<Document[]> {
+
+    let newPath = environment.apiEndpoint + "documents/list?q=" + keyword;
     return this.httpClient.get<Document[]>(newPath);
   }
 
