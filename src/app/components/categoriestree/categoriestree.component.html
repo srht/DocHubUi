@@ -7,7 +7,11 @@
   <!-- There is inline padding applied to this node using styles.
       This padding value depends on the mat-icon-button width. -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-    {{ node.name }}
+    <div class="mat-tree-node ps-5">
+      <div class="p-2">
+        <a [routerLink]="['/documents/', node.id]">{{ node.name }}</a>
+      </div>
+    </div>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
@@ -21,7 +25,9 @@
           {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
         </mat-icon>
       </button>
-      {{ node.name }}
+      <a [routerLink]="['/documents/', node.id]" routerLinkActive="">{{
+        node.name
+      }}</a>
     </div>
     <!-- There is inline padding applied to this div using styles.
             This padding value depends on the mat-icon-button width.  -->

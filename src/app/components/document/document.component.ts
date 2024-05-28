@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document';
 import { MatList, MatListItem } from '@angular/material/list';
@@ -29,18 +29,35 @@ export class DocumentComponent {
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
   constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
-    activatedRoute.queryParams.subscribe(p => {
-      let kw = p["keyword"]
-      this.getDocuments(kw)
-    })
-    this.singleDocument = new Document()
 
+    this.singleDocument = new Document()
     this.GetCategories();
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
       title: new FormControl(),
       description: new FormControl(),
       selectedCategoryId: new FormControl()
+    })
+  }
+
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+    this.activatedRoute.params.subscribe(r => {
+      let categoryId = r["category"]
+      this.getDocumentsByCategory(categoryId)
+    })
+
+    this.activatedRoute.queryParams.subscribe(p => {
+      console.log(p)
+      let kw = p["keyword"]
+
+      if (kw)
+        this.getDocuments(kw)
+      else
+        this.getDocuments('')
     })
   }
 
@@ -57,6 +74,10 @@ export class DocumentComponent {
 
   getDocuments(keyword: string) {
     this.documentService.Search(keyword).subscribe(res => this.documentList = res)
+  }
+
+  getDocumentsByCategory(id: number) {
+    this.documentService.GetDocumentsByCategory(id).subscribe(res => this.documentList = res)
   }
 
   GetCategories() {

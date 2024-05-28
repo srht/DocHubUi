@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { GlobalModules } from '../../globalModules';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-category',

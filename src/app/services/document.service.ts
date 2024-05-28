@@ -17,6 +17,12 @@ export class DocumentService {
     return this.httpClient.get<Document[]>(newPath);
   }
 
+  GetDocumentsByCategory(categoryId: number): Observable<Document[]> {
+
+    let newPath = environment.apiEndpoint + "documents/category?categoryId=" + categoryId;
+    return this.httpClient.get<Document[]>(newPath);
+  }
+
   Search(keyword: string): Observable<Document[]> {
 
     let newPath = environment.apiEndpoint + "documents/list?q=" + keyword;

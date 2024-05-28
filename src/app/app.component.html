@@ -6,7 +6,17 @@
     <h1 class="app-name">DocHub</h1>
     <div class="flex">
       <form action="/documents/list">
-        <input type="text" name="keyword" />
+        <mat-form-field>
+          <input
+            matInput
+            (keyup)="updateSearch($event)"
+            (blur)="updateSearch($event)"
+            placeholder="arama"
+            [(ngModel)]="searchModel"
+            type="text"
+            name="keyword"
+          />
+        </mat-form-field>
         <button mat-button type="submit">Ara</button>
       </form>
       <a mat-list-item routerLink="/category" routerLinkActive="true"
