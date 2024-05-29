@@ -13,11 +13,13 @@ import { Category } from '../../models/category';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentdialogComponent } from '../documentdialog/documentdialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-document',
   standalone: true,
-  imports: [MatTableModule, MatInputModule, MatFormFieldModule, MatList, MatListItem, CommonModule, FormsModule, ReactiveFormsModule, FileUploaderComponent],
+  imports: [MatTableModule, MatInputModule, MatButtonModule, MatIconModule,MatFormFieldModule, MatList, MatListItem, CommonModule, FormsModule, ReactiveFormsModule, FileUploaderComponent],
   templateUrl: './document.component.html',
   styleUrl: './document.component.css'
 })
