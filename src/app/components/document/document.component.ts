@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-document',
   standalone: true,
-  imports: [MatTableModule, MatInputModule, MatButtonModule, MatIconModule,MatFormFieldModule, MatList, MatListItem, CommonModule, FormsModule, ReactiveFormsModule, FileUploaderComponent],
+  imports: [MatTableModule, MatInputModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatList, MatListItem, CommonModule, FormsModule, ReactiveFormsModule, FileUploaderComponent],
   templateUrl: './document.component.html',
   styleUrl: './document.component.css'
 })
@@ -95,7 +95,7 @@ export class DocumentComponent {
       this.singleDocument.id = doc.id
       this.singleDocument.title = doc.title
       this.singleDocument.description = doc.description
-      this.singleDocument.categories = doc.categories && []
+      this.singleDocument.categories = doc.categories
     }
     this.documentUpdateForm.patchValue(this.singleDocument)
     console.log(this.singleDocument)

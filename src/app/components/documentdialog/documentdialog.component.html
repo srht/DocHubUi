@@ -1,5 +1,7 @@
 <div class="p-3">
-  <h2 mat-dialog-title>{{ document.title }}</h2>
+  <h2 mat-dialog-title>
+    {{ document && document.title !== "" ? document.title : "Yeni Doküman" }}
+  </h2>
   <form [formGroup]="documentUpdateForm" (ngSubmit)="upsertDocument()">
     <mat-dialog-content>
       <mat-form-field class="full-row">
@@ -22,28 +24,9 @@
       </mat-form-field>
       <mat-form-field class="full-row">
         <mat-label>Doküman Kategorisi</mat-label>
-        <mat-select
-          id="selectedCategoryValues"
-          formControlName="selectedCategoryValues"
-          (selectionChange)="categorySelected()"
-          [(ngModel)]="document.categories"
-          multiple
-        >
-          <mat-select-trigger>
-            {{selectedCategoryValues.value?.[0] || ''}}
-            @if ((selectedCategoryValues.value?.length || 0) > 1) {
-            <span class="example-additional-selection">
-              (+{{ (selectedCategoryValues.value?.length || 0) - 1 }}
-              {{
-                selectedCategoryValues.value?.length === 2
-                  ? "diğer"
-                  : "diğerleri"
-              }})
-            </span>
-            }
-          </mat-select-trigger>
+        <mat-select [formControl]="categories" multiple>
           <mat-option
-            value="{{ category.id }}"
+            [value]="category.id"
             *ngFor="let category of categoryList"
           >
             {{ category.name }}

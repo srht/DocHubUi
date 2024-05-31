@@ -25,17 +25,15 @@ export class DocumentdialogComponent {
 
   categoryList!: Category[]
   documentUpdateForm!: FormGroup;
-  selectedCategoryId: any;
-  selectedCategoryValues = new FormControl('');
-  selectedCategoryNames: Category[] = []
+  selectedCategoriesArray: Category[] = []
+  categories = new FormControl()
   constructor(public dialogRef: MatDialogRef<DocumentdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public document: Document, private documentService: DocumentService, private categoryService: CategoryService) {
 
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
       title: new FormControl(),
-      description: new FormControl(),
-      selectedCategoryValues: new FormControl()
+      description: new FormControl()
     })
   }
 
@@ -44,7 +42,15 @@ export class DocumentdialogComponent {
     //Add 'implements OnInit' to the class.
     this.GetCategories().subscribe(result => {
       this.categoryList = result;
-      this.documentUpdateForm.patchValue(this.document)
+      this.documentUpdateForm.patchValue(this.document);
+      if (this.document) {
+        let selectedCategoryIDs = this.document.categories?.map(r => r.id)
+        console.log(selectedCategoryIDs)
+        this.categories.patchValue(selectedCategoryIDs)
+      }
+      else {
+        this.document = new Document()
+      }
     })
   }
 
@@ -55,7 +61,7 @@ export class DocumentdialogComponent {
       const id = selectedCategoryValues[index];
       const foundd = this.categoryList.find((doc) => doc.id == id);
       if (foundd)
-        this.selectedCategoryNames.push(foundd)
+        this.selectedCategoriesArray.push(foundd)
     }
 
   }
@@ -73,15 +79,16 @@ export class DocumentdialogComponent {
 
   upsertDocument() {
     console.log('tetikledi,')
+    console.log(this.categories)
     var newDocumentValues: Document = this.documentUpdateForm.value
     this.document.id = newDocumentValues.id
     this.document.title = newDocumentValues.title
     this.document.description = newDocumentValues.description
-    this.selectedCategoryId = this.documentUpdateForm.controls['selectedCategoryId']?.value
 
-    if (!this.document.categories) this.document.categories = []
-    if (this.selectedCategoryNames)
-      this.document.categories = this.selectedCategoryNames
+    this.document.categories = []
+    this.categories?.value.map((r: number) =>
+      this.document.categories.push({ id: r })
+    )
 
     console.log(this.document)
     if (this.document.id)

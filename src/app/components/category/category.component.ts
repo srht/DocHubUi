@@ -32,7 +32,6 @@ export class CategoryComponent {
   }
 
   NewCategory() {
-    this.singleCategory = new Category()
     let selectedParentCategory = this.categoryList.find(i => i.id == this.parentCategoryId);
     console.log('selectedParentCategory')
     console.log(selectedParentCategory)
@@ -53,10 +52,9 @@ export class CategoryComponent {
   SelectCategory(id: number) {
     let selectedCategory = this.categoryList.find(i => i.id === id);
     if (selectedCategory !== null) {
-      this.singleCategory = new Category()
       this.singleCategory.id = id;
-      this.singleCategory.name = selectedCategory!.name
-      this.categoryName = this.singleCategory.name
+      this.singleCategory.name = selectedCategory!.name ?? ''
+      this.categoryName = this.singleCategory.name ?? ''
     }
   }
 

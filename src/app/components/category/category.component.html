@@ -14,8 +14,8 @@
   <ul>
     <li *ngFor="let category of categoryList">
       {{ category.name }}
-      <button (click)="SelectCategory(category.id)">Seç</button>
-      <button (click)="DeleteCategory(category.id)">Sil</button>
+      <button (click)="SelectCategory(category.id ?? 0)">Seç</button>
+      <button (click)="DeleteCategory(category.id ?? 0)">Sil</button>
     </li>
   </ul>
 </div>

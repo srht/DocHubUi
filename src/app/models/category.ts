@@ -1,6 +1,6 @@
-export class Category {
-    id!: number;
-    name!: string;
-    parent!: Category;
-    subCategories!: Category[]
+export interface Category {
+    id?: number;
+    name?: string;
+    parent?: Category;
+    subCategories?: Category[]
 }

@@ -33,7 +33,7 @@ export class CategoriesTreeComponent {
     this.activatedRoute.queryParams.subscribe(p => {
       this.dataSource.data = []
       let kw = p["keyword"]
-      this.dataSource.data = kw ? this.categoryList.filter(i => !i.name.startsWith(kw)) : this.categoryList.filter(i => !i.parent);
+      this.dataSource.data = kw ? this.categoryList.filter(i => !i.name!.startsWith(kw)) : this.categoryList.filter(i => !i.parent);
     })
   }
 
