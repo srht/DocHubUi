@@ -1,19 +1,34 @@
 <div>
-  <button mat-raised-button (click)="selectDocument('')">Yeni Dosya</button>
   <table mat-table [dataSource]="documentList" class="mat-elevation-z8">
     <!-- Name Column -->
-    <ng-container matColumnDef="buttons">
-      <th mat-header-cell *matHeaderCellDef>Buttons</th>
+    <ng-container matColumnDef="doctable-buttons">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-mini-fab color="warn" (click)="selectDocument('')">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
       <td mat-cell *matCellDef="let document">
-        <a href="https://localhost:5001{{ document.filePath }}">İndir</a>
-        <button (click)="selectDocument(document.id)">Düzenle</button>
-        <button (click)="deleteDocument(document.id)">Sil</button>
+        <a href="https://localhost:5001{{ document.filePath }}"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="download"></mat-icon></a>
+        <button (click)="selectDocument(document.id)">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit"></mat-icon>
+        </button>
+        <button (click)="deleteDocument(document.id)">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete"></mat-icon>
+        </button>
       </td>
     </ng-container>
     <!-- Name Column -->
-    <ng-container matColumnDef="title">
+    <ng-container matColumnDef="doctable-title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td mat-cell *matCellDef="let document">{{ document.title }}</td>
+      <td mat-cell *matCellDef="let document">
+        <button mat-button (click)="selectDocument(document.id)">{{ document.title }}</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="doctable-thumb">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let document">
+        <img class="object-cover h-28 w-38" src="https://localhost:5001{{ document.filePath }}" />
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

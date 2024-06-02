@@ -26,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class DocumentComponent {
   singleDocument!: Document
   documentList!: Document[]
-  displayedColumns: string[] = ['buttons', 'title'];
+  displayedColumns: string[] = ['doctable-buttons', 'doctable-title','doctable-thumb'];
   categoryList!: Category[]
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
@@ -96,6 +96,7 @@ export class DocumentComponent {
       this.singleDocument.title = doc.title
       this.singleDocument.description = doc.description
       this.singleDocument.categories = doc.categories
+      this.singleDocument.filePath = doc.filePath
     }
     this.documentUpdateForm.patchValue(this.singleDocument)
     console.log(this.singleDocument)

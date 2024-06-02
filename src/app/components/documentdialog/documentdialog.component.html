@@ -18,7 +18,7 @@
         <textarea
           matInput
           formControlName="description"
-          rows="10"
+          rows="3"
           placeholder="Doküman Notları"
         ></textarea>
       </mat-form-field>
@@ -40,12 +40,15 @@
         ></app-file-uploader>
         <input type="hidden" formControlName="id" />
       </div>
+      <div class="full-row">
+        <img class="object-cover w-200" src="https://localhost:5001/{{ document.filePath }}" />
+      </div>
     </mat-dialog-content>
-    <mat-dialog-actions>
+    <mat-dialog-actions align="end">
       <button mat-button (click)="onNoClick()">İptal</button>
       <button
         mat-raised-button
-        color=""
+        color="primary"
         type="submit"
         [mat-dialog-close]="document"
         cdkFocusInitial

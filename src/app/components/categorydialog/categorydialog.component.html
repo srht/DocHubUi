@@ -1,0 +1,43 @@
+<div class="p-3">
+    <h2 mat-dialog-title>
+      Kategori
+    </h2>
+    <form [formGroup]="categoryUpdateForm" (ngSubmit)="upsert()">
+      <mat-dialog-content>
+        <mat-form-field class="full-row">
+          <mat-label>Kategori Adı</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="name"
+            placeholder="Kategori"
+          />
+        </mat-form-field>
+        <mat-form-field class="full-row">
+          <mat-label>Parent</mat-label>
+          <mat-select [(ngModel)]="parentCategoryId" formControlName="category">
+            <mat-option
+              [value]="category.id"
+              *ngFor="let category of categoryList"
+            >
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="onNoClick()">İptal</button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [mat-dialog-close]="singleCategory"
+          cdkFocusInitial
+        >
+          Kaydet
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+  
