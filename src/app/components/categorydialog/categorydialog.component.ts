@@ -28,7 +28,7 @@ export class CategorydialogComponent {
     this.categoryUpdateForm = new FormGroup({
       name: new FormControl(singleCategory?.name)
     })
-    this.selectedCategoryId = this.singleCategory.parent?.id
+    this.selectedCategoryId = this.singleCategory?.parent?.id
 
   }
 
