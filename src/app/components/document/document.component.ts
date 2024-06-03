@@ -26,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class DocumentComponent {
   singleDocument!: Document
   documentList!: Document[]
-  displayedColumns: string[] = ['doctable-buttons', 'doctable-title','doctable-thumb'];
+  displayedColumns: string[] = ['doctable-buttons', 'doctable-title', 'doctable-thumb'];
   categoryList!: Category[]
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
@@ -75,10 +75,12 @@ export class DocumentComponent {
   }
 
   getDocuments(keyword: string) {
+    this.documentList = []
     this.documentService.Search(keyword).subscribe(res => this.documentList = res)
   }
 
   getDocumentsByCategory(id: number) {
+    this.documentList = []
     this.documentService.GetDocumentsByCategory(id).subscribe(res => this.documentList = res)
   }
 

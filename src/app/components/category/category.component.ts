@@ -10,7 +10,7 @@ import { CategorydialogComponent } from '../categorydialog/categorydialog.compon
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [GlobalModules,MatTableModule],
+  imports: [GlobalModules, MatTableModule],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css'
 })
@@ -20,17 +20,17 @@ export class CategoryComponent {
   singleCategory!: Category
   categoryName!: string;
   parentCategoryId!: number;
-  constructor(private categoryService: CategoryService,public dialog: MatDialog) {
+  constructor(private categoryService: CategoryService, public dialog: MatDialog) {
     this.GetCategories()
   }
 
   GetCategories() {
-    this.categoryService.GetCategories().subscribe(res =>{ 
+    this.categoryService.GetCategories().subscribe(res => {
       this.categoryList = res;
-  })
+    })
   }
 
-  openDialogForm(){
+  openDialogForm() {
     const dialogRef = this.dialog.open(CategorydialogComponent, {
       data: this.singleCategory,
     });
@@ -69,11 +69,12 @@ export class CategoryComponent {
   SelectCategory(id: number) {
     let selectedCategory = this.categoryList.find(i => i.id === id);
     if (selectedCategory !== null) {
-      this.singleCategory={
-        id:id,
-        name : selectedCategory!.name ?? ''
+      this.singleCategory = {
+        id: id,
+        name: selectedCategory!.name ?? '',
+        parent: selectedCategory?.parent
       };
-      
+
       this.categoryName = this.singleCategory.name ?? ''
     }
 

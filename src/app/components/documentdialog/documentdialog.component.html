@@ -41,11 +41,14 @@
         <input type="hidden" formControlName="id" />
       </div>
       <div class="full-row">
-        <img class="object-cover w-200" src="https://localhost:5001/{{ document.filePath }}" />
+        <img
+          class="object-cover w-200"
+          src="https://localhost:5001/{{ document.filePath }}"
+        />
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button (click)="onNoClick()">İptal</button>
+      <button mat-button type="button" (click)="onNoClick()">İptal</button>
       <button
         mat-raised-button
         color="primary"

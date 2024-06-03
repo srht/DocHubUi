@@ -9,7 +9,7 @@ import { GlobalModules } from '../../globalModules';
 @Component({
   selector: 'app-categorydialog',
   standalone: true,
-  imports: [GlobalModules, FormsModule,MatDialogModule,MatSelectModule,MatDialogContent, MatDialogActions, MatDialogClose],
+  imports: [GlobalModules, FormsModule, MatDialogModule, MatSelectModule, MatDialogContent, MatDialogActions, MatDialogClose],
   templateUrl: './categorydialog.component.html',
   styleUrl: './categorydialog.component.css'
 })
@@ -19,53 +19,44 @@ export class CategorydialogComponent {
   categoryName!: string;
   categoryUpdateForm!: FormGroup;
   selectedCategoriesArray: Category[] = []
-  categories = new FormControl()
+  selectedParentCategoryControl = new FormControl()
+  selectedCategoryId: number | undefined;
   constructor(public dialogRef: MatDialogRef<CategorydialogComponent>,
     @Inject(MAT_DIALOG_DATA) public singleCategory: Category, private categoryService: CategoryService) {
 
     this.GetCategories()
-    this.categoryUpdateForm=new FormGroup({
-      name:new FormControl(singleCategory.name),
-      category:new FormControl(singleCategory.parent)
+    this.categoryUpdateForm = new FormGroup({
+      name: new FormControl(singleCategory?.name)
     })
+    this.selectedCategoryId = this.singleCategory.parent?.id
+
   }
 
   GetCategories() {
     this.categoryService.GetCategories().subscribe(res => {
       this.categoryList = res;
+
     })
   }
 
   UpsertCategory() {
-    if (this.singleCategory.id)
-      this.categoryService.UpdateCategory(this.singleCategory).subscribe(res => this.GetCategories());
-    else
-      this.categoryService.CreateCategory(this.singleCategory).subscribe(res => this.GetCategories());
-  }
-
-  NewCategory() {
     let selectedParentCategory = this.categoryList.find(i => i.id == this.parentCategoryId);
     console.log('selectedParentCategory')
     console.log(selectedParentCategory)
-    this.singleCategory.name = this.categoryName
-    this.singleCategory.parent = selectedParentCategory!
-    this.UpsertCategory()
-  }
+    let formCategory = this.categoryUpdateForm.value;
+    let processedCategory: Category = {
+      id: this.singleCategory?.id,
+      name: formCategory.name,
+      parent: {
+        id: this.selectedCategoryId
+      }
+    };
 
-  UpdateCategory() {
-    let selectedParentCategory = this.categoryList.find(i => i.id == this.parentCategoryId);
-    console.log('selectedParentCategory')
-    console.log(selectedParentCategory)
-    this.singleCategory.name = this.categoryName
-    this.singleCategory.parent = selectedParentCategory!
-    this.UpsertCategory()
-  }
-
-  upsert(){
-    if(this.singleCategory)
-      this.UpdateCategory()
+    debugger
+    if (this.singleCategory?.id)
+      this.categoryService.UpdateCategory(processedCategory).subscribe(res => this.GetCategories());
     else
-    this.NewCategory()
+      this.categoryService.CreateCategory(processedCategory).subscribe(res => this.GetCategories());
   }
 
   onNoClick() {
