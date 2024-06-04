@@ -42,6 +42,7 @@
       </div>
       <div class="full-row">
         <img
+          *ngIf="document?.filePath"
           class="object-cover w-200"
           src="https://localhost:5001/{{ document.filePath }}"
         />

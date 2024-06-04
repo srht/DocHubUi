@@ -33,13 +33,15 @@ export class DocumentComponent {
   constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
 
     this.singleDocument = new Document()
-    this.GetCategories();
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
       title: new FormControl(),
       description: new FormControl(),
       selectedCategoryId: new FormControl()
     })
+
+    console.log("w cate")
+    console.log(categoryService.wholeCategories)
   }
 
 
@@ -49,7 +51,10 @@ export class DocumentComponent {
 
     this.activatedRoute.params.subscribe(r => {
       let categoryId = r["category"]
-      this.getDocumentsByCategory(categoryId)
+      console.log(r)
+      console.log(categoryId)
+      if (categoryId)
+        this.getDocumentsByCategory(categoryId)
     })
 
     this.activatedRoute.queryParams.subscribe(p => {
