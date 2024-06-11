@@ -51,7 +51,6 @@ export class CategorydialogComponent implements OnInit {
       }
     };
 
-    debugger
     if (this.singleCategory?.id)
       this.categoriesService.UpdateCategory(processedCategory).subscribe(res => this.GetCategories());
     else

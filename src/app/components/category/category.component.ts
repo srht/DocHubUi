@@ -38,6 +38,7 @@ export class CategoryComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.singleCategory = result;
+      this.categoryService.refetchData().subscribe();
     });
   }
 
