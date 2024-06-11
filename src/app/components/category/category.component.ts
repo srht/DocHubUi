@@ -21,7 +21,7 @@ export class CategoryComponent {
   categoryName!: string;
   parentCategoryId!: number;
   constructor(private categoryService: CategoryService, public dialog: MatDialog) {
-    this.GetCategories()
+
   }
 
   GetCategories() {
@@ -46,6 +46,8 @@ export class CategoryComponent {
       this.categoryService.UpdateCategory(this.singleCategory).subscribe(res => this.GetCategories());
     else
       this.categoryService.CreateCategory(this.singleCategory).subscribe(res => this.GetCategories());
+
+    this.categoryService.fetchData().subscribe();
   }
 
   NewCategory() {
@@ -85,4 +87,26 @@ export class CategoryComponent {
     this.categoryService.DeleteCategoryById(id).subscribe(res => this.GetCategories())
   }
 
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    // Eğer veri yüklenmemişse, veriyi çek
+
+
+
+    this.categoryService.categoriesData$.subscribe({
+      next: (response: Category[]) => {
+        this.categoryList = response;
+      },
+      error:
+        (error: any) => {
+          console.error('Veri alma hatası:', error);
+        }
+    });
+
+    this.categoryService.fetchData().subscribe();
+
+
+  }
 }

@@ -27,9 +27,18 @@ export class CategoriesTreeComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    // Eğer veri yüklenmemişse, veriyi çek
+
+
+
     this.categoriesService.categoriesData$.subscribe({
       next: (response: Category[]) => {
         this.categoryList = response;
+        this.activatedRoute.queryParams.subscribe(p => {
+          this.dataSource.data = []
+          let kw = p["keyword"]
+          this.dataSource.data = kw ? this.categoryList?.filter(i => !i.name!.startsWith(kw)) : this.categoryList?.filter(i => !i.parent);
+        })
       },
       error:
         (error: any) => {
@@ -37,14 +46,9 @@ export class CategoriesTreeComponent implements OnInit {
         }
     });
 
-    // Eğer veri yüklenmemişse, veriyi çek
     this.categoriesService.fetchData().subscribe();
 
-    this.activatedRoute.queryParams.subscribe(p => {
-      this.dataSource.data = []
-      let kw = p["keyword"]
-      this.dataSource.data = kw ? this.categoryList?.filter(i => !i.name!.startsWith(kw)) : this.categoryList?.filter(i => !i.parent);
-    })
+
   }
 
 }

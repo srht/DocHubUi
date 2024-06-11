@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Category } from '../../models/category';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { GlobalModules } from '../../globalModules';
   templateUrl: './categorydialog.component.html',
   styleUrl: './categorydialog.component.css'
 })
-export class CategorydialogComponent {
+export class CategorydialogComponent implements OnInit {
   categoryList!: Category[]
   parentCategoryId!: number;
   categoryName!: string;
@@ -22,9 +22,8 @@ export class CategorydialogComponent {
   selectedParentCategoryControl = new FormControl()
   selectedCategoryId: number | undefined;
   constructor(public dialogRef: MatDialogRef<CategorydialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public singleCategory: Category, private categoryService: CategoryService) {
+    @Inject(MAT_DIALOG_DATA) public singleCategory: Category, private categoriesService: CategoryService) {
 
-    this.GetCategories()
     this.categoryUpdateForm = new FormGroup({
       name: new FormControl(singleCategory?.name)
     })
@@ -33,7 +32,7 @@ export class CategorydialogComponent {
   }
 
   GetCategories() {
-    this.categoryService.GetCategories().subscribe(res => {
+    this.categoriesService.GetCategories().subscribe(res => {
       this.categoryList = res;
 
     })
@@ -54,13 +53,34 @@ export class CategorydialogComponent {
 
     debugger
     if (this.singleCategory?.id)
-      this.categoryService.UpdateCategory(processedCategory).subscribe(res => this.GetCategories());
+      this.categoriesService.UpdateCategory(processedCategory).subscribe(res => this.GetCategories());
     else
-      this.categoryService.CreateCategory(processedCategory).subscribe(res => this.GetCategories());
+      this.categoriesService.CreateCategory(processedCategory).subscribe(res => this.GetCategories());
   }
 
   onNoClick() {
     this.dialogRef.close()
   }
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    // Eğer veri yüklenmemişse, veriyi çek
+
+
+
+    this.categoriesService.categoriesData$.subscribe({
+      next: (response: Category[]) => {
+        this.categoryList = response;
+      },
+      error:
+        (error: any) => {
+          console.error('Veri alma hatası:', error);
+        }
+    });
+
+    this.categoriesService.fetchData().subscribe();
+
+
+  }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
 import { Category } from '../models/category';
 import { environment } from '../environments/environment';
 
@@ -60,6 +60,12 @@ export class CategoryService {
       // Veri önceden yüklendiyse, BehaviorSubject'in mevcut değerini Observable olarak döndür
       return this.categoriesData$;
     }
+  }
+
+  refetchData(): Observable<any[]> {
+    return this.GetCategories().pipe(
+      tap(fetchedData => this.dataSubject.next(fetchedData))
+    );
   }
 
   getData(): any[] {
