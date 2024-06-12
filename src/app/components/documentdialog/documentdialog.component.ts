@@ -7,6 +7,8 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { Document } from '../../models/document';
 import { FileUploaderComponent } from '../file-uploader/file-uploader.component';
 import { CategoryService } from '../../services/category.service';
@@ -14,27 +16,38 @@ import { Category } from '../../models/category';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { DocumentService } from '../../services/document.service';
+import { Tag } from '../../models/tag';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsHelper } from '../../services/matchipshelper';
 @Component({
   selector: 'app-documentdialog',
   standalone: true,
-  imports: [GlobalModules, MatDialogContent, MatDialogActions, MatDialogClose, FileUploaderComponent],
+  imports: [GlobalModules, MatDialogContent, MatChipsModule, MatIconModule, MatDialogActions, MatDialogClose, FileUploaderComponent],
   templateUrl: './documentdialog.component.html',
   styleUrl: './documentdialog.component.css'
 })
 export class DocumentdialogComponent {
-
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  addOnBlur = true;
   categoryList!: Category[]
+  tagList!: Tag[]
   documentUpdateForm!: FormGroup;
   selectedCategoriesArray: Category[] = []
   categories = new FormControl()
+  tags = new FormControl()
+  matchipHelper: MatChipsHelper;
   constructor(public dialogRef: MatDialogRef<DocumentdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public document: Document, private documentService: DocumentService, private categoryService: CategoryService) {
 
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
       title: new FormControl(),
+      tags: new FormControl(),
       description: new FormControl()
     })
+
+    this.matchipHelper = new MatChipsHelper()
+    this.tagList = this.matchipHelper.tagList;
   }
 
   ngOnInit(): void {
@@ -47,6 +60,8 @@ export class DocumentdialogComponent {
         let selectedCategoryIDs = this.document.categories?.map(r => r.id)
         console.log(selectedCategoryIDs)
         this.categories.patchValue(selectedCategoryIDs)
+        this.matchipHelper.tagList = this.document.tags
+        this.tagList = this.matchipHelper.tagList
       }
       else {
         this.document = new Document()
@@ -84,10 +99,14 @@ export class DocumentdialogComponent {
     this.document.id = newDocumentValues.id
     this.document.title = newDocumentValues.title
     this.document.description = newDocumentValues.description
-
+    this.document.tags = []
     this.document.categories = []
     this.categories?.value.map((r: number) =>
       this.document.categories.push({ id: r })
+    )
+
+    this.matchipHelper.tagList.map((tag: Tag) =>
+      this.document.tags.push(tag)
     )
 
     console.log(this.document)
@@ -95,6 +114,18 @@ export class DocumentdialogComponent {
       this.documentService.UpdateDocument(this.document)
     else
       this.documentService.CreateDocument(this.document)
+  }
+
+  chipAdd(event$: MatChipInputEvent) {
+    this.matchipHelper.add(event$)
+  }
+
+  chipEdit(tag: Tag, event$: MatChipEditedEvent) {
+    this.matchipHelper.edit(tag, event$)
+  }
+
+  chipRemove(tag: Tag) {
+    this.matchipHelper.remove(tag)
   }
 
   onNoClick() {

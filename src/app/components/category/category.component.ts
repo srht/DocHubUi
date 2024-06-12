@@ -85,7 +85,7 @@ export class CategoryComponent {
   }
 
   DeleteCategory(id: number) {
-    this.categoryService.DeleteCategoryById(id).subscribe(res => this.GetCategories())
+    this.categoryService.DeleteCategoryById(id).subscribe(res => this.categoryService.refetchData().subscribe())
   }
 
 

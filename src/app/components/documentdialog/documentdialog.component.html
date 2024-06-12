@@ -33,6 +33,31 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field class="full-row">
+        <mat-label>Doküman Etiketleri</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter fruits">
+          @for (tag of tagList; track tag) {
+          <mat-chip-row
+            (removed)="chipRemove(tag)"
+            [editable]="true"
+            (edited)="chipEdit(tag, $event)"
+            [aria-description]="'press enter to edit ' + tag.name"
+          >
+            {{ tag.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          }
+          <input
+            placeholder="Yeni etiket..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="chipAdd($event)"
+          />
+        </mat-chip-grid>
+      </mat-form-field>
       <div class="full-row">
         <mat-label>Yeni dosya</mat-label>
         <app-file-uploader
