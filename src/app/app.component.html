@@ -5,29 +5,32 @@
     </button>
     <h1 class="app-name">DocHub</h1>
     <div class="flex">
-      <form action="/documents/list">
-        <mat-form-field>
-          <input
-            matInput
-            (keyup)="updateSearch($event)"
-            (blur)="updateSearch($event)"
-            placeholder="arama"
-            [(ngModel)]="searchModel"
-            type="text"
-            name="keyword"
-          />
-        </mat-form-field>
-        <button mat-button type="submit">Ara</button>
-      </form>
-      <a mat-list-item routerLink="/category" routerLinkActive="true"
-        >Category</a
-      >
-      <a mat-list-item routerLink="/register" routerLinkActive="true"
-        >Register</a
-      >
-      <a mat-list-item routerLink="/login" routerLinkActive="true">Login</a>
-      <app-membertool></app-membertool>
+      <div class="h-12">
+        <form action="/documents/list">
+          <mat-form-field>
+            <input
+              matInput
+              (keyup)="updateSearch($event)"
+              (blur)="updateSearch($event)"
+              placeholder="arama"
+              [(ngModel)]="searchModel"
+              type="text"
+              name="keyword"
+            />
+          </mat-form-field>
+          <button mat-button type="submit">
+            <mat-icon>search</mat-icon>
+          </button>
+        </form>
+      </div>
     </div>
+    <button mat-button routerLink="/category" routerLinkActive="true"
+    >
+    <mat-icon>view_module</mat-icon>
+    Dosya Grupları</button
+  >
+  <app-membertool></app-membertool>
+
   </mat-toolbar>
   <mat-sidenav-container
     class="example-sidenav-container"
