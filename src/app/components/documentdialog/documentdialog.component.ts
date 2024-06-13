@@ -30,7 +30,7 @@ export class DocumentdialogComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
   categoryList!: Category[]
-  tagList!: Tag[]
+  tagList: Tag[] = []
   documentUpdateForm!: FormGroup;
   selectedCategoriesArray: Category[] = []
   categories = new FormControl()
@@ -42,12 +42,13 @@ export class DocumentdialogComponent {
     this.documentUpdateForm = new FormGroup({
       id: new FormControl(),
       title: new FormControl(),
-      tags: new FormControl(),
       description: new FormControl()
     })
 
     this.matchipHelper = new MatChipsHelper()
-    this.tagList = this.matchipHelper.tagList;
+    this.tagList = document?.tags
+    this.matchipHelper.tagList = this.tagList;
+    console.log(this.tagList)
   }
 
   ngOnInit(): void {
@@ -58,14 +59,15 @@ export class DocumentdialogComponent {
       this.documentUpdateForm.patchValue(this.document);
       if (this.document) {
         let selectedCategoryIDs = this.document.categories?.map(r => r.id)
+        this.tagList = this.document.tags
         console.log(selectedCategoryIDs)
         this.categories.patchValue(selectedCategoryIDs)
-        this.matchipHelper.tagList = this.document.tags
-        this.tagList = this.matchipHelper.tagList
+        this.tags.patchValue(this.tagList)
       }
       else {
         this.document = new Document()
       }
+
     })
   }
 
@@ -101,11 +103,12 @@ export class DocumentdialogComponent {
     this.document.description = newDocumentValues.description
     this.document.tags = []
     this.document.categories = []
-    this.categories?.value.map((r: number) =>
-      this.document.categories.push({ id: r })
-    )
+    if (this.categories.value)
+      this.categories.value.map((r: number) =>
+        this.document.categories.push({ id: r })
+      )
 
-    this.matchipHelper.tagList.map((tag: Tag) =>
+    this.matchipHelper.tagList?.map((tag: Tag) =>
       this.document.tags.push(tag)
     )
 

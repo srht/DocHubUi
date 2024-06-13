@@ -103,6 +103,7 @@ export class DocumentComponent {
       this.singleDocument.title = doc.title
       this.singleDocument.description = doc.description
       this.singleDocument.categories = doc.categories
+      this.singleDocument.tags = doc.tags
       this.singleDocument.filePath = doc.filePath
     }
     this.documentUpdateForm.patchValue(this.singleDocument)

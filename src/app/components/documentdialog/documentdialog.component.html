@@ -2,6 +2,7 @@
   <h2 mat-dialog-title>
     {{ document && document.title !== "" ? document.title : "Yeni Doküman" }}
   </h2>
+  <p>{{ tagList | json }}</p>
   <form [formGroup]="documentUpdateForm" (ngSubmit)="upsertDocument()">
     <mat-dialog-content>
       <mat-form-field class="full-row">
@@ -33,6 +34,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-form-field class="full-row">
         <mat-label>Doküman Etiketleri</mat-label>
         <mat-chip-grid #chipGrid aria-label="Enter fruits">

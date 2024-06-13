@@ -8,7 +8,6 @@ export class MatChipsHelper {
             this.tagList = []
     }
     add(event: MatChipInputEvent): void {
-        debugger
         const value = (event.value || '').trim();
 
         if (!this.tagList)
@@ -23,8 +22,6 @@ export class MatChipsHelper {
     }
 
     remove(tag: Tag): void {
-        if (!this.tagList)
-            this.tagList = []
 
         const index = this.tagList.indexOf(tag);
 
@@ -35,9 +32,6 @@ export class MatChipsHelper {
     }
 
     edit(tag: Tag, event: MatChipEditedEvent) {
-
-        if (!this.tagList)
-            this.tagList = []
 
         const value = event.value.trim();
 
