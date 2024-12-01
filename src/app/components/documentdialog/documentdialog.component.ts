@@ -46,6 +46,7 @@ export class DocumentdialogComponent {
     })
 
     this.matchipHelper = new MatChipsHelper()
+    document.tags=[]
     this.tagList = document?.tags
     this.matchipHelper.tagList = this.tagList;
     console.log(this.tagList)
@@ -84,9 +85,10 @@ export class DocumentdialogComponent {
   }
 
   savedDocumentFilePath(uploadedDocumentFilePath: string) {
-    this.document.filePath = uploadedDocumentFilePath;
+    this.document.filePaths=[]
+    this.document.filePaths.push(uploadedDocumentFilePath);
     console.log('this.singleDocument.filePath')
-    console.log(this.document.filePath)
+    console.log(this.document.filePaths)
   }
 
 
@@ -120,6 +122,7 @@ export class DocumentdialogComponent {
   }
 
   chipAdd(event$: MatChipInputEvent) {
+    console.log(event$)
     this.matchipHelper.add(event$)
   }
 

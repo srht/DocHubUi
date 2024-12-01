@@ -8,6 +8,7 @@ export class Document {
     title!: string;
     description!: string;
     filePath!: string;
+    filePaths!:string[];
     documentType!: string;
     createdAt!: string;
     updatedAt!: string;
