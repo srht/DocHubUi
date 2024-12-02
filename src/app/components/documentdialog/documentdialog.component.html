@@ -68,6 +68,7 @@
         <input type="hidden" formControlName="id" />
       </div>
       <div class="full-row">
+        {{document|json}}
         <img
           *ngIf="document?.filePath"
           class="object-cover w-200"

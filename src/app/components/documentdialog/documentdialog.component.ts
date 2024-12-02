@@ -86,7 +86,7 @@ export class DocumentdialogComponent {
 
   savedDocumentFilePath(uploadedDocumentFilePath: string) {
     this.document.filePaths=[]
-    this.document.filePaths.push(uploadedDocumentFilePath);
+    this.document.filePaths.push({filePath:uploadedDocumentFilePath});
     console.log('this.singleDocument.filePath')
     console.log(this.document.filePaths)
   }

@@ -8,11 +8,15 @@ export class Document {
     title!: string;
     description!: string;
     filePath!: string;
-    filePaths!:string[];
+    filePaths!:DocFile[];
     documentType!: string;
     createdAt!: string;
     updatedAt!: string;
     tags!: Tag[];
     categories!:Category[];
+}
+
+export class DocFile {
+    filePath!:string;
 }
 
