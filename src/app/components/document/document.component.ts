@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document';
 import { MatList, MatListItem } from '@angular/material/list';
@@ -30,7 +30,7 @@ export class DocumentComponent {
   categoryList!: Category[]
   selectedCategoryId!: number
   documentUpdateForm!: FormGroup
-  constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog) {
+  constructor(private activatedRoute: ActivatedRoute, private documentService: DocumentService, private categoryService: CategoryService, public dialog: MatDialog,private cdr: ChangeDetectorRef) {
 
     this.singleDocument = new Document()
     this.documentUpdateForm = new FormGroup({
@@ -49,12 +49,17 @@ export class DocumentComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
+   this.getDocumentsWithCondition()
+  }
+
+  getDocumentsWithCondition(){
     this.activatedRoute.params.subscribe(r => {
       let categoryId = r["category"]
       console.log(r)
       console.log(categoryId)
       if (categoryId)
         this.getDocumentsByCategory(categoryId)
+
     })
 
     this.activatedRoute.queryParams.subscribe(p => {
@@ -65,6 +70,7 @@ export class DocumentComponent {
         this.getDocuments(kw)
       else
         this.getDocuments('')
+
     })
   }
 
@@ -75,7 +81,14 @@ export class DocumentComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      if(result){
       this.singleDocument = result;
+      
+      const docIndex= this.documentList.findIndex(i=>i.id===document.id)
+      this.documentList[docIndex]=this.singleDocument;
+      this.documentList=[...this.documentList]
+      console.log(this.documentList)
+      }
     });
   }
 
@@ -104,7 +117,7 @@ export class DocumentComponent {
       this.singleDocument.description = doc.description
       this.singleDocument.categories = doc.categories
       this.singleDocument.tags = doc.tags
-      this.singleDocument.filePath = doc.filePath
+      this.singleDocument.filePaths = doc.filePaths
     }
     this.documentUpdateForm.patchValue(this.singleDocument)
     console.log(this.singleDocument)

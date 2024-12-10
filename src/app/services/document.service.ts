@@ -46,6 +46,6 @@ export class DocumentService {
 
   UpdateDocument(document: Document) {
     let newPath = environment.apiEndpoint + `documents/${document.id}`
-    this.httpClient.put(newPath, document).subscribe(res => console.log(res))
+    return this.httpClient.put(newPath, document)
   }
 }

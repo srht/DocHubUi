@@ -8,7 +8,6 @@
         </button>
       </th>
       <td mat-cell *matCellDef="let document">
-        <a href="https://localhost:5001{{ document.filePath }}"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="download"></mat-icon></a>
         <button (click)="selectDocument(document.id)">
           <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit"></mat-icon>
         </button>
@@ -27,7 +26,7 @@
     <ng-container matColumnDef="doctable-thumb">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let document">
-        <img class="object-cover h-28 w-38" src="https://localhost:5001{{ document.filePath }}" />
+      
       </td>
     </ng-container>
 

@@ -17,6 +17,7 @@ export class Document {
 }
 
 export class DocFile {
+    docid!:string;
     filePath!:string;
 }
 

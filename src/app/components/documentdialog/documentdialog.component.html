@@ -1,4 +1,7 @@
 <div class="p-3">
+  <button mat-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
   <h2 mat-dialog-title>
     {{ document && document.title !== "" ? document.title : "Yeni Doküman" }}
   </h2>
@@ -68,12 +71,15 @@
         <input type="hidden" formControlName="id" />
       </div>
       <div class="full-row">
-        {{document|json}}
-        <img
-          *ngIf="document?.filePath"
-          class="object-cover w-200"
-          src="https://localhost:5001/{{ document.filePath }}"
-        />
+        <ul>
+          <li *ngFor="let docFile of filePaths">
+            <a href="https://localhost:5001{{docFile.filePath}}">{{docFile.filePath}}</a>&nbsp;
+            
+        <button (click)="removeFile(docFile.docid)">
+          <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
+        </button>
+          </li>
+        </ul>
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">

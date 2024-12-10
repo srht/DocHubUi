@@ -9,7 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Document } from '../../models/document';
+import { DocFile, Document } from '../../models/document';
 import { FileUploaderComponent } from '../file-uploader/file-uploader.component';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
@@ -31,6 +31,7 @@ export class DocumentdialogComponent {
   addOnBlur = true;
   categoryList!: Category[]
   tagList: Tag[] = []
+  filePaths:DocFile[]=[]
   documentUpdateForm!: FormGroup;
   selectedCategoriesArray: Category[] = []
   categories = new FormControl()
@@ -46,9 +47,12 @@ export class DocumentdialogComponent {
     })
 
     this.matchipHelper = new MatChipsHelper()
+    
+    if(!document.tags)
     document.tags=[]
     this.tagList = document?.tags
     this.matchipHelper.tagList = this.tagList;
+    this.filePaths=document?.filePaths;
     console.log(this.tagList)
   }
 
@@ -86,14 +90,20 @@ export class DocumentdialogComponent {
 
   savedDocumentFilePath(uploadedDocumentFilePath: string) {
     this.document.filePaths=[]
-    this.document.filePaths.push({filePath:uploadedDocumentFilePath});
+    this.document.filePaths.push({docid:"",filePath:uploadedDocumentFilePath});
     console.log('this.singleDocument.filePath')
     console.log(this.document.filePaths)
   }
 
+  removeFile(docid:string){
+
+   const filePaths= this.document.filePaths.filter(i=>i.docid!==docid)
+   this.document.filePaths=filePaths;
+  }
+
 
   GetCategories() {
-    return this.categoryService.GetCategories()
+    return this.categoryService.categoriesData$
   }
 
   upsertDocument() {
@@ -116,7 +126,11 @@ export class DocumentdialogComponent {
 
     console.log(this.document)
     if (this.document.id)
-      this.documentService.UpdateDocument(this.document)
+      this.documentService.UpdateDocument(this.document).subscribe((res:any)=>{
+        console.log(res)
+        this.document=res;
+        
+      })
     else
       this.documentService.CreateDocument(this.document)
   }
